@@ -82,7 +82,7 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Результат";
-            this.columnHeader1.Width = 750;
+            this.columnHeader1.Width = 1000;
             // 
             // Form1
             // 

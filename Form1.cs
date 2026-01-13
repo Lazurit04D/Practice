@@ -47,6 +47,9 @@ namespace Practice
                         case 1:
                             ShowScheduleReport();
                             break;
+                        case 2:
+                            ShowLessonTopicsReport();
+                            break;
                         default:
                             MessageBox.Show("Отчёт пока не реализован.");
                             break;
@@ -61,19 +64,14 @@ namespace Practice
 
         private DataSet ReadExcelFile(string path)
         {
+            Cursor = Cursors.WaitCursor;
+
             var ds = new DataSet();
             IWorkbook workbook;
 
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                if (Path.GetExtension(path).ToLower() == ".xls")
-                {
-                    workbook = new HSSFWorkbook(fs);
-                }
-                else
-                {
-                    workbook = new XSSFWorkbook(fs);
-                }
+                workbook = WorkbookFactory.Create(fs);
 
                 for (int i = 0; i < workbook.NumberOfSheets; i++)
                 {
@@ -119,11 +117,15 @@ namespace Practice
                 }
             }
 
+            Cursor = Cursors.Default;
+
             return ds;
         }
 
         private void ShowScheduleReport()
         {
+            Cursor = Cursors.WaitCursor;
+
             var dt = excelData.Tables[0];
 
             var counts = new Dictionary<string, int>();
@@ -164,6 +166,77 @@ namespace Practice
             {
                 lvResults.Items.Add(new ListViewItem($"{kv.Key} - {kv.Value} пар"));
             }
+
+            Cursor = Cursors.Default;
+        }
+
+        private void ShowLessonTopicsReport()
+        {
+            Cursor = Cursors.WaitCursor;
+
+            var dt = excelData.Tables[0];
+
+            int themeColumnIndex = -1;
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                if (dt.Columns[i].ColumnName.Trim().Equals("Тема урока", StringComparison.OrdinalIgnoreCase))
+                {
+                    themeColumnIndex = i;
+                    break;
+                }
+            }
+
+            if (themeColumnIndex == -1)
+            {
+                MessageBox.Show("В файле не найден столбец \"Тема урока\".");
+                return;
+            }
+
+            lvResults.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string cell = row[themeColumnIndex]?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(cell))
+                {
+                    continue;
+                }
+
+                if (!IsValidLessonTheme(cell))
+                {
+                    lvResults.Items.Add(new ListViewItem(cell));
+                }
+            }
+
+            if (lvResults.Items.Count == 0)
+            {
+                lvResults.Items.Add(new ListViewItem("Все темы соответствуют формату."));
+            }
+
+            Cursor = Cursors.Default;
+        }
+
+        private bool IsValidLessonTheme(string text)
+        {
+            if (!text.StartsWith("Урок №"))
+            {
+                return false;
+            }
+
+            int dotIndex = text.IndexOf('.');
+            if (dotIndex < 0)
+            {
+                return false;
+            }
+
+            string afterDot = text.Substring(dotIndex + 1).Trim();
+            if (!afterDot.StartsWith("Тема:"))
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
