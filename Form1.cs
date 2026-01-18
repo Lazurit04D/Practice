@@ -50,6 +50,9 @@ namespace Practice
                         case 2:
                             ShowLessonTopicsReport();
                             break;
+                        case 3:
+                            ShowStudentsReport();
+                            break;
                         default:
                             MessageBox.Show("Отчёт пока не реализован.");
                             break;
@@ -238,5 +241,66 @@ namespace Practice
 
             return true;
         }
+
+        private void ShowStudentsReport()
+        {
+            var dt = excelData.Tables[0];
+
+            int fioCol = -1;
+            int homeworkCol = -1;
+            int classroomCol = -1;
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                string name = dt.Columns[i].ColumnName.Trim();
+
+                if (name.Equals("FIO", StringComparison.OrdinalIgnoreCase))
+                {
+                    fioCol = i;
+                }
+                else if (name.Equals("Homework", StringComparison.OrdinalIgnoreCase))
+                {
+                    homeworkCol = i;
+                }
+                else if (name.Equals("Classroom", StringComparison.OrdinalIgnoreCase))
+                {
+                    classroomCol = i;
+                }
+            }
+
+            if (fioCol == -1 || homeworkCol == -1 || classroomCol == -1)
+            {
+                MessageBox.Show("В файле отсутствуют необходимые столбцы (FIO, Homework, Classroom).");
+                return;
+            }
+
+            lvResults.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string fio = row[fioCol]?.ToString()?.Trim();
+
+                if (!double.TryParse(row[homeworkCol]?.ToString(), out double homework))
+                {
+                    continue;
+                }
+
+                if (!double.TryParse(row[classroomCol]?.ToString(), out double classroom))
+                {
+                    continue;
+                }
+
+                if (homework < 1 && classroom < 3)
+                {
+                    lvResults.Items.Add(new ListViewItem(fio));
+                }
+            }
+
+            if (lvResults.Items.Count == 0)
+            {
+                lvResults.Items.Add(new ListViewItem("Подходящих студентов не найдено."));
+            }
+        }
+
     }
 }
