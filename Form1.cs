@@ -53,6 +53,9 @@ namespace Practice
                         case 3:
                             ShowStudentsReport();
                             break;
+                        case 4:
+                            ShowAttendanceReport();
+                            break;
                         default:
                             MessageBox.Show("Отчёт пока не реализован.");
                             break;
@@ -160,14 +163,23 @@ namespace Practice
                     {
                         counts[discipline] = 0;
                     }
+
                     counts[discipline]++;
                 }
             }
 
             lvResults.Items.Clear();
-            foreach (var kv in counts.OrderByDescending(k => k.Value))
+
+            if (counts.Keys.Count == 0)
             {
-                lvResults.Items.Add(new ListViewItem($"{kv.Key} - {kv.Value} пар"));
+                MessageBox.Show("В файле отсутствуют необходимые ключевые слова (Предмет:).");
+            }
+            else
+            {
+                foreach (var kv in counts.OrderByDescending(k => k.Value))
+                {
+                    lvResults.Items.Add(new ListViewItem($"{kv.Key} - {kv.Value} пар"));
+                }
             }
 
             Cursor = Cursors.Default;
@@ -193,6 +205,7 @@ namespace Practice
             if (themeColumnIndex == -1)
             {
                 MessageBox.Show("В файле не найден столбец \"Тема урока\".");
+                Cursor = Cursors.Default;
                 return;
             }
 
@@ -244,6 +257,8 @@ namespace Practice
 
         private void ShowStudentsReport()
         {
+            Cursor = Cursors.WaitCursor;
+
             var dt = excelData.Tables[0];
 
             int fioCol = -1;
@@ -271,6 +286,7 @@ namespace Practice
             if (fioCol == -1 || homeworkCol == -1 || classroomCol == -1)
             {
                 MessageBox.Show("В файле отсутствуют необходимые столбцы (FIO, Homework, Classroom).");
+                Cursor = Cursors.Default;
                 return;
             }
 
@@ -300,7 +316,80 @@ namespace Practice
             {
                 lvResults.Items.Add(new ListViewItem("Подходящих студентов не найдено."));
             }
+
+            Cursor = Cursors.Default;
         }
 
+        private void ShowAttendanceReport()
+        {
+            Cursor = Cursors.WaitCursor;
+
+            var dt = excelData.Tables[0];
+
+            int teacherCol = -1;
+            int attendanceCol = -1;
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                string name = dt.Columns[i].ColumnName.Trim();
+
+                if (name.Equals("ФИО преподавателя", StringComparison.OrdinalIgnoreCase))
+                {
+                    teacherCol = i;
+                }
+
+                if (name.Equals("Средняя посещаемость", StringComparison.OrdinalIgnoreCase))
+                {
+                    attendanceCol = i;
+                }
+            }
+
+            if (teacherCol == -1 || attendanceCol == -1)
+            {
+                MessageBox.Show("В файле отсутствуют необходимые столбцы (ФИО преподавателя, Средняя посещаемость).");
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            lvResults.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string teacher = row[teacherCol]?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(teacher))
+                {
+                    continue;
+                }
+
+                string raw = row[attendanceCol]?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(raw))
+                {
+                    continue;
+                }
+
+                string norm = raw.Replace("%", "").Replace(",", ".").Trim();
+                if (!double.TryParse(norm, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double val))
+                {
+                    continue;
+                }
+
+                if (val <= 1)
+                {
+                    val *= 100;
+                }
+
+                if (val < 40)
+                {
+                    lvResults.Items.Add(new ListViewItem($"{teacher} - {val:0.##}%"));
+                }
+            }
+
+            if (lvResults.Items.Count == 0)
+            {
+                lvResults.Items.Add(new ListViewItem("Подходящих преподавателей не найдено."));
+            }
+
+            Cursor = Cursors.Default;
+        }
     }
 }

@@ -54,12 +54,12 @@
             "1 — Отчёт по расписанию",
             "2 — Отчёт по темам занятий",
             "3 — Отчёт по студентам",
-            "4 — Отчёт по посещаемости студентов",
+            "4 — Отчёт по посещаемости",
             "5 — Отчёт по проверенным ДЗ",
             "6 — Отчёт по сданным ДЗ"});
             this.cbReportType.Location = new System.Drawing.Point(446, 18);
             this.cbReportType.Name = "cbReportType";
-            this.cbReportType.Size = new System.Drawing.Size(520, 37);
+            this.cbReportType.Size = new System.Drawing.Size(420, 37);
             this.cbReportType.TabIndex = 2;
             // 
             // lvResults
@@ -74,7 +74,7 @@
             this.lvResults.HideSelection = false;
             this.lvResults.Location = new System.Drawing.Point(12, 79);
             this.lvResults.Name = "lvResults";
-            this.lvResults.Size = new System.Drawing.Size(954, 584);
+            this.lvResults.Size = new System.Drawing.Size(854, 734);
             this.lvResults.TabIndex = 3;
             this.lvResults.UseCompatibleStateImageBehavior = false;
             this.lvResults.View = System.Windows.Forms.View.Details;
@@ -88,11 +88,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(972, 671);
+            this.ClientSize = new System.Drawing.Size(872, 671);
             this.Controls.Add(this.lvResults);
             this.Controls.Add(this.cbReportType);
             this.Controls.Add(this.btnLoadExcel);
-            this.MinimumSize = new System.Drawing.Size(1000, 750);
+            this.MinimumSize = new System.Drawing.Size(900, 750);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Практика - отчёты";
