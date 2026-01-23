@@ -1,20 +1,18 @@
-﻿using NPOI.HSSF.UserModel;
-using NPOI.SS.UserModel;
-using NPOI.XSSF.UserModel;
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System;
 using System.IO;
+using System.Data;
 using System.Linq;
+using NPOI.SS.UserModel;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Practice
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         private DataSet excelData;
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
             cbReportType.SelectedIndex = 0;
@@ -55,6 +53,9 @@ namespace Practice
                             break;
                         case 4:
                             ShowAttendanceReport();
+                            break;
+                        case 5:
+                            ShowHomeworkCheckedReport();
                             break;
                         default:
                             MessageBox.Show("Отчёт пока не реализован.");
@@ -191,20 +192,11 @@ namespace Practice
 
             var dt = excelData.Tables[0];
 
-            int themeColumnIndex = -1;
-
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                if (dt.Columns[i].ColumnName.Trim().Equals("Тема урока", StringComparison.OrdinalIgnoreCase))
-                {
-                    themeColumnIndex = i;
-                    break;
-                }
-            }
+            int themeColumnIndex = dt.Columns.IndexOf("Тема урока");
 
             if (themeColumnIndex == -1)
             {
-                MessageBox.Show("В файле не найден столбец \"Тема урока\".");
+                MessageBox.Show("В файле отсутствует необходимый столбец (Тема урока).");
                 Cursor = Cursors.Default;
                 return;
             }
@@ -261,27 +253,9 @@ namespace Practice
 
             var dt = excelData.Tables[0];
 
-            int fioCol = -1;
-            int homeworkCol = -1;
-            int classroomCol = -1;
-
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                string name = dt.Columns[i].ColumnName.Trim();
-
-                if (name.Equals("FIO", StringComparison.OrdinalIgnoreCase))
-                {
-                    fioCol = i;
-                }
-                else if (name.Equals("Homework", StringComparison.OrdinalIgnoreCase))
-                {
-                    homeworkCol = i;
-                }
-                else if (name.Equals("Classroom", StringComparison.OrdinalIgnoreCase))
-                {
-                    classroomCol = i;
-                }
-            }
+            int fioCol = dt.Columns.IndexOf("FIO");
+            int homeworkCol = dt.Columns.IndexOf("Homework");
+            int classroomCol = dt.Columns.IndexOf("Classroom");
 
             if (fioCol == -1 || homeworkCol == -1 || classroomCol == -1)
             {
@@ -326,25 +300,10 @@ namespace Practice
 
             var dt = excelData.Tables[0];
 
-            int teacherCol = -1;
-            int attendanceCol = -1;
+            int fioCol = dt.Columns.IndexOf("ФИО преподавателя");
+            int attendanceCol = dt.Columns.IndexOf("Средняя посещаемость");
 
-            for (int i = 0; i < dt.Columns.Count; i++)
-            {
-                string name = dt.Columns[i].ColumnName.Trim();
-
-                if (name.Equals("ФИО преподавателя", StringComparison.OrdinalIgnoreCase))
-                {
-                    teacherCol = i;
-                }
-
-                if (name.Equals("Средняя посещаемость", StringComparison.OrdinalIgnoreCase))
-                {
-                    attendanceCol = i;
-                }
-            }
-
-            if (teacherCol == -1 || attendanceCol == -1)
+            if (fioCol == -1 || attendanceCol == -1)
             {
                 MessageBox.Show("В файле отсутствуют необходимые столбцы (ФИО преподавателя, Средняя посещаемость).");
                 Cursor = Cursors.Default;
@@ -355,7 +314,7 @@ namespace Practice
 
             foreach (DataRow row in dt.Rows)
             {
-                string teacher = row[teacherCol]?.ToString()?.Trim();
+                string teacher = row[fioCol]?.ToString()?.Trim();
                 if (string.IsNullOrWhiteSpace(teacher))
                 {
                     continue;
@@ -381,6 +340,128 @@ namespace Practice
                 if (val < 40)
                 {
                     lvResults.Items.Add(new ListViewItem($"{teacher} - {val:0.##}%"));
+                }
+            }
+
+            if (lvResults.Items.Count == 0)
+            {
+                lvResults.Items.Add(new ListViewItem("Подходящих преподавателей не найдено."));
+            }
+
+            Cursor = Cursors.Default;
+        }
+
+        private void ShowHomeworkCheckedReport()
+        {
+            Cursor = Cursors.WaitCursor;
+
+            var dt = excelData.Tables[0];
+
+            if (dt.Rows.Count < 2)
+            {
+                MessageBox.Show("Неподходящая структура файла (ожидаются две строки шапки).");
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            int cols = dt.Columns.Count;
+            string[] topHeader = new string[cols];
+            string lastTop = "";
+
+            for (int i = 0; i < cols; i++)
+            {
+                string t = dt.Columns[i].ColumnName?.Trim() ?? "";
+                if (!string.IsNullOrEmpty(t) && !t.StartsWith("Column", StringComparison.OrdinalIgnoreCase))
+                {
+                    lastTop = t;
+                }
+                topHeader[i] = lastTop;
+            }
+
+            DataRow lowerHeaderRow = dt.Rows[0];
+
+            int teacherCol = -1;
+            for (int i = 0; i < cols; i++)
+            {
+                string lower = (lowerHeaderRow[i]?.ToString() ?? "").Trim();
+                string top = (topHeader[i] ?? "").Trim();
+                if (string.Equals(lower, "ФИО преподавателя", StringComparison.OrdinalIgnoreCase) || string.Equals(dt.Columns[i].ColumnName?.Trim(), "ФИО преподавателя", StringComparison.OrdinalIgnoreCase) || top.Equals("ФИО преподавателя", StringComparison.OrdinalIgnoreCase))
+                {
+                    teacherCol = i;
+                    break;
+                }
+            }
+
+            int receivedCol = -1;
+            int checkedCol = -1;
+
+            for (int i = 0; i < cols; i++)
+            {
+                string top = (topHeader[i] ?? "").Trim();
+                string lower = (lowerHeaderRow[i]?.ToString() ?? "").Trim();
+
+                if (top.Equals("Месяц", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (lower.StartsWith("Получено", StringComparison.OrdinalIgnoreCase))
+                    {
+                        receivedCol = i;
+                    }
+
+                    if (lower.StartsWith("Проверено", StringComparison.OrdinalIgnoreCase))
+                    {
+                        checkedCol = i;
+                    }
+                }
+            }
+
+            if (receivedCol == -1 || checkedCol == -1)
+            {
+                MessageBox.Show("В файле отсутствуют необходимые столбцы (Получено, Проверено).");
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            lvResults.Items.Clear();
+
+            for (int r = 1; r < dt.Rows.Count; r++)
+            {
+                var row = dt.Rows[r];
+                string teacher = row[teacherCol]?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(teacher))
+                {
+                    continue;
+                }
+
+                string rawReceived = row[receivedCol]?.ToString()?.Trim();
+                string rawChecked = row[checkedCol]?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(rawReceived) || string.IsNullOrEmpty(rawChecked))
+                {
+                    continue;
+                }
+
+                string normReceived = rawReceived.Replace("%", "").Replace(",", ".").Trim();
+                string normChecked = rawChecked.Replace("%", "").Replace(",", ".").Trim();
+                if (!double.TryParse(normReceived, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double receivedHw))
+                {
+                    continue;
+                }
+
+                if (!double.TryParse(normChecked, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double checkedHw))
+                {
+                    continue;
+
+                }
+
+                if (receivedHw <= 0)
+                {
+                    continue;
+                }
+
+                double percent = checkedHw / receivedHw * 100.0;
+
+                if (percent < 70.0)
+                {
+                    lvResults.Items.Add(new ListViewItem($"{teacher} - {percent:0.##}%"));
                 }
             }
 

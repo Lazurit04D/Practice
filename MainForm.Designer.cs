@@ -1,6 +1,6 @@
 ﻿namespace Practice
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -74,7 +74,7 @@
             this.lvResults.HideSelection = false;
             this.lvResults.Location = new System.Drawing.Point(12, 79);
             this.lvResults.Name = "lvResults";
-            this.lvResults.Size = new System.Drawing.Size(854, 734);
+            this.lvResults.Size = new System.Drawing.Size(854, 617);
             this.lvResults.TabIndex = 3;
             this.lvResults.UseCompatibleStateImageBehavior = false;
             this.lvResults.View = System.Windows.Forms.View.Details;
@@ -84,7 +84,7 @@
             this.columnHeader1.Text = "Результат";
             this.columnHeader1.Width = 1000;
             // 
-            // Form1
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 29F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -93,7 +93,7 @@
             this.Controls.Add(this.cbReportType);
             this.Controls.Add(this.btnLoadExcel);
             this.MinimumSize = new System.Drawing.Size(900, 750);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Практика - отчёты";
             this.ResumeLayout(false);
