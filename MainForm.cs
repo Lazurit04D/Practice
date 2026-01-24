@@ -2,6 +2,7 @@
 using System.IO;
 using System.Data;
 using System.Linq;
+using System.Drawing;
 using NPOI.SS.UserModel;
 using System.Windows.Forms;
 using System.Collections.Generic;
@@ -11,11 +12,15 @@ namespace Practice
     public partial class MainForm : Form
     {
         private DataSet excelData;
+        private bool isDarkTheme = false;
 
         public MainForm()
         {
             InitializeComponent();
             cbReportType.SelectedIndex = 0;
+
+            isDarkTheme = Properties.Settings.Default.Theme == "Dark";
+            ApplyTheme();
         }
 
         private void btnLoadExcel_Click(object sender, EventArgs e)
@@ -57,6 +62,9 @@ namespace Practice
                         case 5:
                             ShowHomeworkCheckedReport();
                             break;
+                        case 6:
+                            ShowStudentsHomeworkPercent();
+                            break;
                         default:
                             MessageBox.Show("Отчёт пока не реализован.");
                             break;
@@ -65,6 +73,61 @@ namespace Practice
                 catch (Exception ex)
                 {
                     MessageBox.Show("Ошибка при чтении Excel: " + ex.Message);
+                }
+            }
+        }
+
+        private void btnToggleTheme_Click(object sender, EventArgs e)
+        {
+            isDarkTheme = !isDarkTheme;
+
+            ApplyTheme();
+        }
+
+        private void ApplyTheme()
+        {
+            if (isDarkTheme)
+            {
+                ApplyTheme(Color.FromArgb(33, 33, 33), Color.White);
+                btnToggleTheme.Text = "☀️";
+
+                BackColor = Color.FromArgb(33, 33, 33);
+                ForeColor = Color.White;
+
+                Properties.Settings.Default.Theme = "Dark";
+                Properties.Settings.Default.Save();
+            }
+            else
+            {
+                ApplyTheme(Color.White, Color.FromArgb(33, 33, 33));
+                btnToggleTheme.Text = "🌙";
+
+                BackColor = Color.White;
+                ForeColor = Color.FromArgb(33, 33, 33);
+
+                Properties.Settings.Default.Theme = "Light";
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        private void ApplyTheme(Color back, Color fore)
+        {
+            Control.ControlCollection controls = this.Controls;
+
+            foreach (Control ctrl in controls)
+            {
+                ctrl.BackColor = back;
+                ctrl.ForeColor = fore;
+
+                if (ctrl is ListView lv)
+                {
+                    lv.BackColor = back;
+                    lv.ForeColor = fore;
+                }
+
+                if (ctrl.HasChildren)
+                {
+                    ApplyTheme(back, fore);
                 }
             }
         }
@@ -269,6 +332,10 @@ namespace Practice
             foreach (DataRow row in dt.Rows)
             {
                 string fio = row[fioCol]?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(fio))
+                {
+                    continue;
+                }
 
                 if (!double.TryParse(row[homeworkCol]?.ToString(), out double homework))
                 {
@@ -282,7 +349,7 @@ namespace Practice
 
                 if (homework < 1 && classroom < 3)
                 {
-                    lvResults.Items.Add(new ListViewItem(fio));
+                    lvResults.Items.Add(new ListViewItem($"{fio} - ДЗ: {homework}; КР: {classroom}"));
                 }
             }
 
@@ -468,6 +535,63 @@ namespace Practice
             if (lvResults.Items.Count == 0)
             {
                 lvResults.Items.Add(new ListViewItem("Подходящих преподавателей не найдено."));
+            }
+
+            Cursor = Cursors.Default;
+        }
+
+        private void ShowStudentsHomeworkPercent()
+        {
+            Cursor = Cursors.WaitCursor;
+
+            var dt = excelData.Tables[0];
+
+            int fioCol = dt.Columns.IndexOf("FIO");
+            int homeworkCol = dt.Columns.IndexOf("Percentage Homework");
+
+            if (fioCol == -1 || homeworkCol == -1)
+            {
+                MessageBox.Show("В файле отсутствуют необходимые столбцы (FIO, Percentage Homework).");
+                Cursor = Cursors.Default;
+                return;
+            }
+
+            lvResults.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string fio = row[fioCol]?.ToString()?.Trim();
+                if (string.IsNullOrWhiteSpace(fio))
+                {
+                    continue;
+                }
+
+                string raw = row[homeworkCol]?.ToString()?.Trim();
+                if (string.IsNullOrEmpty(raw))
+                {
+                    continue;
+                }
+
+                string norm = raw.Replace("%", "").Replace(",", ".").Trim();
+                if (!double.TryParse(norm, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out double val))
+                {
+                    continue;
+                }
+
+                if (val <= 1)
+                {
+                    val *= 100;
+                }
+
+                if (val < 70)
+                {
+                    lvResults.Items.Add(new ListViewItem($"{fio} - {val:0.##}%"));
+                }
+            }
+
+            if (lvResults.Items.Count == 0)
+            {
+                lvResults.Items.Add(new ListViewItem("Подходящих студентов не найдено."));
             }
 
             Cursor = Cursors.Default;
