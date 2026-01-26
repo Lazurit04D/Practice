@@ -117,140 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;btnLoadExcel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnLoadExcel.Name" xml:space="preserve">
-    <value>btnLoadExcel</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lvResults.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTheme.Name" xml:space="preserve">
-    <value>btnToggleTheme</value>
-  </data>
-  <data name="columnHeader1.Width" type="System.Int32, mscorlib">
-    <value>1000</value>
-  </data>
-  <data name="&gt;&gt;lvResults.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;lvResults.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTheme.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbReportType.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="btnToggleTheme.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;btnLoadExcel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;cbReportType.Name" xml:space="preserve">
-    <value>cbReportType</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="btnLoadExcel.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnLoadExcel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 12</value>
+    <value>12, 12</value>
   </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Практика - отчёты</value>
+  <data name="btnLoadExcel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>428, 61</value>
   </data>
-  <data name="cbReportType.Items2" xml:space="preserve">
-    <value>3 — Отчёт по студентам</value>
-  </data>
-  <data name="cbReportType.Items3" xml:space="preserve">
-    <value>4 — Отчёт по посещаемости</value>
-  </data>
-  <data name="cbReportType.Items1" xml:space="preserve">
-    <value>2 — Отчёт по темам занятий</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>MainForm</value>
-  </data>
-  <data name="cbReportType.Items4" xml:space="preserve">
-    <value>5 — Отчёт по проверенным ДЗ</value>
-  </data>
-  <data name="cbReportType.Items5" xml:space="preserve">
-    <value>6 — Отчёт по сданным ДЗ</value>
-  </data>
-  <data name="cbReportType.ItemHeight" type="System.Int32, mscorlib">
-    <value>29</value>
-  </data>
-  <data name="btnToggleTheme.Text" xml:space="preserve">
-    <value>🌙</value>
+  <data name="cbReportType.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Popup</value>
   </data>
   <data name="cbReportType.Size" type="System.Drawing.Size, System.Drawing">
-    <value>420, 37</value>
+    <value>415, 37</value>
   </data>
-  <data name="&gt;&gt;btnToggleTheme.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnToggleTheme.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>936, 671</value>
-  </data>
-  <data name="columnHeader1.Text" xml:space="preserve">
-    <value>Результат</value>
-  </data>
-  <data name="btnLoadExcel.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>14, 29</value>
-  </data>
-  <data name="&gt;&gt;btnToggleTheme.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;btnLoadExcel.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;columnHeader1.Name" xml:space="preserve">
-    <value>columnHeader1</value>
-  </data>
-  <data name="cbReportType.Location" type="System.Drawing.Point, System.Drawing">
-    <value>446, 18</value>
-  </data>
-  <data name="lvResults.Size" type="System.Drawing.Size, System.Drawing">
-    <value>918, 617</value>
-  </data>
-  <data name="&gt;&gt;cbReportType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="cbReportType.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="btnToggleTheme.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 61</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.StartPosition" type="System.Windows.Forms.FormStartPosition, System.Windows.Forms">
-    <value>CenterScreen</value>
-  </data>
-  <data name="cbReportType.Items" xml:space="preserve">
-    <value>1 — Отчёт по расписанию</value>
-  </data>
-  <data name="&gt;&gt;cbReportType.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>964, 750</value>
-  </data>
-  <data name="btnLoadExcel.Text" xml:space="preserve">
-    <value>Загрузить .xlsx и создать отчёт</value>
-  </data>
-  <data name="cbReportType.MaxDropDownItems" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;lvResults.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ListView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="btnToggleTheme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>873, 12</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -362,31 +250,4 @@
         TkSuQmCC
 </value>
   </data>
-  <data name="lvResults.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 79</value>
-  </data>
-  <data name="&gt;&gt;lvResults.Name" xml:space="preserve">
-    <value>lvResults</value>
-  </data>
-  <data name="btnToggleTheme.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 10pt</value>
-  </data>
-  <data name="btnLoadExcel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>430, 61</value>
-  </data>
-  <data name="btnToggleTheme.Location" type="System.Drawing.Point, System.Drawing">
-    <value>874, 12</value>
-  </data>
-  <data name="lvResults.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;columnHeader1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ColumnHeader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>ru</value>
-  </metadata>
 </root>

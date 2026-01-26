@@ -38,22 +38,23 @@
             // 
             // btnLoadExcel
             // 
+            resources.ApplyResources(this.btnLoadExcel, "btnLoadExcel");
             this.btnLoadExcel.BackColor = System.Drawing.Color.White;
             this.btnLoadExcel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnLoadExcel.ForeColor = System.Drawing.Color.Black;
-            resources.ApplyResources(this.btnLoadExcel, "btnLoadExcel");
+            this.btnLoadExcel.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnLoadExcel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.btnLoadExcel.Name = "btnLoadExcel";
             this.btnLoadExcel.UseVisualStyleBackColor = false;
             this.btnLoadExcel.Click += new System.EventHandler(this.btnLoadExcel_Click);
             // 
             // cbReportType
             // 
+            resources.ApplyResources(this.cbReportType, "cbReportType");
             this.cbReportType.BackColor = System.Drawing.Color.White;
             this.cbReportType.Cursor = System.Windows.Forms.Cursors.Hand;
             this.cbReportType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbReportType.ForeColor = System.Drawing.Color.Black;
+            this.cbReportType.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.cbReportType.FormattingEnabled = true;
-            resources.ApplyResources(this.cbReportType, "cbReportType");
             this.cbReportType.Items.AddRange(new object[] {
             resources.GetString("cbReportType.Items"),
             resources.GetString("cbReportType.Items1"),
@@ -67,9 +68,10 @@
             // 
             resources.ApplyResources(this.lvResults, "lvResults");
             this.lvResults.BackColor = System.Drawing.Color.White;
+            this.lvResults.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.lvResults.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1});
-            this.lvResults.ForeColor = System.Drawing.Color.Black;
+            this.lvResults.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.lvResults.FullRowSelect = true;
             this.lvResults.GridLines = true;
             this.lvResults.HideSelection = false;
@@ -83,10 +85,11 @@
             // 
             // btnToggleTheme
             // 
+            resources.ApplyResources(this.btnToggleTheme, "btnToggleTheme");
             this.btnToggleTheme.BackColor = System.Drawing.Color.White;
             this.btnToggleTheme.Cursor = System.Windows.Forms.Cursors.Hand;
-            resources.ApplyResources(this.btnToggleTheme, "btnToggleTheme");
-            this.btnToggleTheme.ForeColor = System.Drawing.Color.Black;
+            this.btnToggleTheme.FlatAppearance.BorderColor = System.Drawing.Color.Gray;
+            this.btnToggleTheme.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.btnToggleTheme.Name = "btnToggleTheme";
             this.btnToggleTheme.UseVisualStyleBackColor = false;
             this.btnToggleTheme.Click += new System.EventHandler(this.btnToggleTheme_Click);
