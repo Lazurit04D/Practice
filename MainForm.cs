@@ -19,7 +19,7 @@ namespace Practice
             InitializeComponent();
             cbReportType.SelectedIndex = 0;
 
-            isDarkTheme = Properties.Settings.Default.Theme == "Dark";
+            isDarkTheme = (Properties.Settings.Default.Theme == "Dark");
             ApplyTheme();
         }
 
@@ -88,7 +88,7 @@ namespace Practice
         {
             if (isDarkTheme)
             {
-                ApplyTheme(Color.FromArgb(33, 33, 33), Color.White);
+                ApplyTheme(this.Controls, Color.FromArgb(33, 33, 33), Color.White);
                 btnToggleTheme.Text = "☀️";
 
                 BackColor = Color.FromArgb(33, 33, 33);
@@ -99,7 +99,7 @@ namespace Practice
             }
             else
             {
-                ApplyTheme(Color.White, Color.FromArgb(33, 33, 33));
+                ApplyTheme(this.Controls, Color.White, Color.FromArgb(33, 33, 33));
                 btnToggleTheme.Text = "🌙";
 
                 BackColor = Color.White;
@@ -110,10 +110,8 @@ namespace Practice
             }
         }
 
-        private void ApplyTheme(Color back, Color fore)
+        private void ApplyTheme(Control.ControlCollection controls, Color back, Color fore)
         {
-            Control.ControlCollection controls = this.Controls;
-
             foreach (Control ctrl in controls)
             {
                 ctrl.BackColor = back;
@@ -127,7 +125,7 @@ namespace Practice
 
                 if (ctrl.HasChildren)
                 {
-                    ApplyTheme(back, fore);
+                    ApplyTheme(controls, back, fore);
                 }
             }
         }
