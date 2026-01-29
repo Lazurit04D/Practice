@@ -125,7 +125,7 @@ namespace Practice
 
                 if (ctrl.HasChildren)
                 {
-                    ApplyTheme(controls, back, fore);
+                    ApplyTheme(ctrl.Controls, back, fore);
                 }
             }
         }
