@@ -232,7 +232,7 @@ namespace Practice
 
             lvResults.Items.Clear();
 
-            if (counts.Keys.Count == 0)
+            if (counts.Count == 0)
             {
                 MessageBox.Show("В файле отсутствуют необходимые ключевые слова (Предмет:).");
             }
@@ -377,6 +377,8 @@ namespace Practice
 
             lvResults.Items.Clear();
 
+            var teachers = new Dictionary<string, double>();
+
             foreach (DataRow row in dt.Rows)
             {
                 string teacher = row[fioCol]?.ToString()?.Trim();
@@ -404,13 +406,20 @@ namespace Practice
 
                 if (val < 40)
                 {
-                    lvResults.Items.Add(new ListViewItem($"{teacher} - {val:0.##}%"));
+                    teachers.Add(teacher, val);
                 }
             }
 
-            if (lvResults.Items.Count == 0)
+            if (teachers.Count == 0)
             {
                 lvResults.Items.Add(new ListViewItem("Подходящих преподавателей не найдено."));
+            }
+            else
+            {
+                foreach (var t in teachers.OrderByDescending(k => k.Value))
+                {
+                    lvResults.Items.Add(new ListViewItem($"{t.Key} - {t.Value:0.##}%"));
+                }
             }
 
             Cursor = Cursors.Default;
@@ -488,6 +497,8 @@ namespace Practice
 
             lvResults.Items.Clear();
 
+            var teachers = new Dictionary<string, double>();
+
             for (int r = 1; r < dt.Rows.Count; r++)
             {
                 var row = dt.Rows[r];
@@ -526,13 +537,20 @@ namespace Practice
 
                 if (percent < 70.0)
                 {
-                    lvResults.Items.Add(new ListViewItem($"{teacher} - {percent:0.##}%"));
+                    teachers.Add(teacher, percent);
                 }
             }
 
-            if (lvResults.Items.Count == 0)
+            if (teachers.Count == 0)
             {
                 lvResults.Items.Add(new ListViewItem("Подходящих преподавателей не найдено."));
+            }
+            else
+            {
+                foreach (var t in teachers.OrderByDescending(k => k.Value))
+                {
+                    lvResults.Items.Add(new ListViewItem($"{t.Key} - {t.Value:0.##}%"));
+                }
             }
 
             Cursor = Cursors.Default;
@@ -555,6 +573,8 @@ namespace Practice
             }
 
             lvResults.Items.Clear();
+
+            var students = new Dictionary<string, double>();
 
             foreach (DataRow row in dt.Rows)
             {
@@ -583,13 +603,20 @@ namespace Practice
 
                 if (val < 70)
                 {
-                    lvResults.Items.Add(new ListViewItem($"{fio} - {val:0.##}%"));
+                    students.Add(fio, val);
                 }
             }
 
-            if (lvResults.Items.Count == 0)
+            if (students.Count == 0)
             {
                 lvResults.Items.Add(new ListViewItem("Подходящих студентов не найдено."));
+            }
+            else
+            {
+                foreach (var st in students.OrderByDescending(k => k.Value))
+                {
+                    lvResults.Items.Add(new ListViewItem($"{st.Key} - {st.Value:0.##}%"));
+                }
             }
 
             Cursor = Cursors.Default;
